@@ -548,6 +548,7 @@ void kvz_rdoq_sign_hiding(
 void kvz_rdoq(encoder_state_t * const state, coeff_t *coef, coeff_t *dest_coeff, int32_t width,
            int32_t height, int8_t type, int8_t scan_mode, int8_t block_type, int8_t tr_depth)
 {
+  //this function does a thing
   const encoder_control_t * const encoder = state->encoder_control;
   cabac_data_t * const cabac = &state->cabac;
   uint32_t log2_tr_size      = kvz_g_convert_to_bit[ width ] + 2;
@@ -708,7 +709,8 @@ void kvz_rdoq(encoder_state_t * const state, coeff_t *coef, coeff_t *dest_coeff,
           sh_rates.inc[blkpos]   = CTX_ENTROPY_BITS(&base_one_ctx[one_ctx], 0);
         }
       }
-      dest_coeff[blkpos] = (coeff_t)level;
+      // dest_coeff[blkpos] = (coeff_t)level;
+      dest_coeff[blkpos] = 0;
       base_cost         += cost_coeff[scanpos];
 
       base_level = (c1_idx < C1FLAG_NUMBER) ? (2 + (c2_idx < C2FLAG_NUMBER)) : 1;
