@@ -399,7 +399,9 @@ int kvz_quantize_residual_avx2(encoder_state_t *const state,
   for (int i = 0; i < width * width; i += 8) {
     __m128i v_quant_coeff = _mm_loadu_si128((__m128i*)&(coeff_out[i]));
     has_coeffs = !_mm_testz_si128(_mm_set1_epi8(0xFF), v_quant_coeff);
-    if(has_coeffs) break;
+    if(has_coeffs) {
+	    break;
+    }
   }
 
   // Do the inverse quantization and transformation and the reconstruction to
@@ -410,15 +412,13 @@ int kvz_quantize_residual_avx2(encoder_state_t *const state,
     kvz_dequant(state, coeff_out, coeff, width, width, (color == COLOR_Y ? 0 : (color == COLOR_U ? 2 : 3)), cur_cu->type);
     if (use_trskip) {
       kvz_itransformskip(state->encoder_control, residual, coeff, width);
-    }
-    else {
+    } else {
       kvz_itransform2d(state->encoder_control, residual, coeff, width, color, cur_cu->type);
     }
 
     // Get quantized reconstruction. (residual + pred_in -> rec_out)
     get_quantized_recon_avx2(residual, pred_in, in_stride, rec_out, out_stride, width);
-  }
-  else if (rec_out != pred_in) {
+  } else if (rec_out != pred_in) {
     // With no coeffs and rec_out == pred_int we skip copying the coefficients
     // because the reconstruction is just the prediction.
     int y, x;
@@ -459,8 +459,7 @@ void kvz_dequant_avx2(const encoder_state_t * const state, coeff_t *q_coef, coef
 
   shift = 20 - QUANT_SHIFT - transform_shift;
 
-  if (encoder->scaling_list.enable)
-  {
+  if (encoder->scaling_list.enable) {
     uint32_t log2_tr_size = kvz_g_convert_to_bit[ width ] + 2;
     int32_t scalinglist_type = (block_type == CU_INTRA ? 0 : 3) + (int8_t)("\0\3\1\2"[type]);
 

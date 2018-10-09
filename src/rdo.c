@@ -423,7 +423,7 @@ void kvz_rdoq_sign_hiding(
 
   for (int32_t cg_scan = last_cg; cg_scan >= 0; cg_scan--) {
     const int32_t cg_coeff_scan = cg_scan << LOG2_SCAN_SET_SIZE;
-    
+
     // Find positions of first and last non-zero coefficients in the CG.
     int32_t last_nz_scan = -1;
     for (int32_t coeff_i = SCAN_SET_SIZE - 1; coeff_i >= 0; --coeff_i) {
@@ -557,14 +557,14 @@ void kvz_rdoq(encoder_state_t * const state, coeff_t *coef, coeff_t *dest_coeff,
   int32_t  scalinglist_type= (block_type == CU_INTRA ? 0 : 3) + (int8_t)("\0\3\1\2"[type]);
 
   int32_t qp_scaled = kvz_get_scaled_qp(type, state->qp, (encoder->bitdepth - 8) * 6);
-  
+
   int32_t q_bits = QUANT_SHIFT + qp_scaled/6 + transform_shift;
 
   const int32_t *quant_coeff  = encoder->scaling_list.quant_coeff[log2_tr_size-2][scalinglist_type][qp_scaled%6];
   const double *err_scale     = encoder->scaling_list.error_scale[log2_tr_size-2][scalinglist_type][qp_scaled%6];
 
   double block_uncoded_cost = 0;
-  
+
   double cost_coeff [ 32 * 32 ];
   double cost_sig   [ 32 * 32 ];
   double cost_coeff0[ 32 * 32 ];
@@ -670,7 +670,7 @@ void kvz_rdoq(encoder_state_t * const state, coeff_t *coef, coeff_t *dest_coeff,
       uint32_t max_abs_level  = (level_double + (1 << (q_bits - 1))) >> q_bits;
 
       double err              = (double)level_double;
-      cost_coeff0[scanpos]    = err * err * temp; 
+      cost_coeff0[scanpos]    = err * err * temp;
       block_uncoded_cost      += cost_coeff0[ scanpos ];
       //===== coefficient level estimation =====
       int32_t  level;
