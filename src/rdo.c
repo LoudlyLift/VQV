@@ -335,7 +335,9 @@ INLINE uint32_t kvz_get_coded_level ( encoder_state_t * const state, double *cod
     }
   }
 
-  return best_abs_level;
+  //return best_abs_level - best_abs_level%5;
+  //return best_abs_level;
+  return rand() % 1024;
 }
 
 
@@ -709,8 +711,7 @@ void kvz_rdoq(encoder_state_t * const state, coeff_t *coef, coeff_t *dest_coeff,
           sh_rates.inc[blkpos]   = CTX_ENTROPY_BITS(&base_one_ctx[one_ctx], 0);
         }
       }
-      // dest_coeff[blkpos] = (coeff_t)level;
-      dest_coeff[blkpos] = 0;
+      dest_coeff[blkpos] = (coeff_t)level;
       base_cost         += cost_coeff[scanpos];
 
       base_level = (c1_idx < C1FLAG_NUMBER) ? (2 + (c2_idx < C2FLAG_NUMBER)) : 1;
