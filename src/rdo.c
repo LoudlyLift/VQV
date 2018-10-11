@@ -335,9 +335,12 @@ INLINE uint32_t kvz_get_coded_level ( encoder_state_t * const state, double *cod
     }
   }
 
-  //return best_abs_level - best_abs_level%5;
-  //return best_abs_level;
-  return rand() % 1024;
+  int32_t diff = max_abs_level - min_abs_level;
+  if (diff) {
+	  return min_abs_level + rand() % diff;
+  } else {
+	  return min_abs_level;
+  }
 }
 
 
