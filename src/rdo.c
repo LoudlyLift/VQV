@@ -710,7 +710,7 @@ void kvz_rdoq(encoder_state_t * const state, coeff_t *coef, coeff_t *dest_coeff,
         }
       }
       // dest_coeff[blkpos] = (coeff_t)level;
-      dest_coeff[blkpos] = 0;
+      dest_coeff[blkpos] = 5;
       base_cost         += cost_coeff[scanpos];
 
       base_level = (c1_idx < C1FLAG_NUMBER) ? (2 + (c2_idx < C2FLAG_NUMBER)) : 1;
