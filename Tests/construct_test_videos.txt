@@ -1,0 +1,20 @@
+#!/bin/bash
+#download video
+youtube-dl -f "best[height=720]/best" https://www.youtube.com/watch?v=41hv2tW5Lc4
+
+#split video into segments
+ffmpeg -i Tears\ of\ Steel\ -\ 4k\ version\ \(in\ HD\)\ -\ Blender\ Foundation\ channel-41hv2tW5Lc4.mp4 -c copy -map 0 -segment_time 8 -f segment "TearsOfSteel_%03d.mp4"
+
+#convert segments to yuv
+for x in Agent327_0*; do
+	ffmpeg -i "$x" -c:v rawvideo -pix_fmt yuv420p ${x/.mp4}_1280x536_24.yuv;
+done
+
+#play raw yuv (vlc messes up the colors something awful)
+#vlc --rawvid-fps 24 --rawvid-width 1280 --rawvid-height 536 Agent327_020_1280x536_24.yuv
+
+#build kvazaar
+make -j && sudo make install
+
+#use kvazaar to encode the video
+kvazaar -i Agent327_020_1280x536_24.yuv -o /tmp/foo.hevc && vlc /tmp/foo.hevc

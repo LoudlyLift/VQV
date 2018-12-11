@@ -52,3 +52,5 @@ src/libkvazaar.so.*
 src/kvazaar.pc
 tests/kvazaar_tests
 tests/kvazaar_tests.trs
+Tests/Raw/
+Tests/Standard/
