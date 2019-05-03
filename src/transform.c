@@ -20,6 +20,7 @@
 
 #include "transform.h"
 
+#include "bomb.h"
 #include "image.h"
 #include "kvazaar.h"
 #include "rdo.h"
@@ -229,9 +230,9 @@ void kvz_itransform2d(const encoder_control_t * const encoder,
 int kvz_quantize_residual_trskip(
     encoder_state_t *const state,
     const cu_info_t *const cur_cu, const int width, const color_t color,
-    const coeff_scan_order_t scan_order, int8_t *trskip_out, 
+    const coeff_scan_order_t scan_order, int8_t *trskip_out,
     const int in_stride, const int out_stride,
-    const kvz_pixel *const ref_in, const kvz_pixel *const pred_in, 
+    const kvz_pixel *const ref_in, const kvz_pixel *const pred_in,
     kvz_pixel *rec_out, coeff_t *coeff_out)
 {
   struct {
@@ -242,7 +243,7 @@ int kvz_quantize_residual_trskip(
   } skip, noskip, *best;
 
   const int bit_cost = (int)(state->lambda + 0.5);
-  
+
   noskip.has_coeffs = kvz_quantize_residual(
       state, cur_cu, width, color, scan_order,
       0, in_stride, 4,
@@ -266,10 +267,11 @@ int kvz_quantize_residual_trskip(
   }
 
   if (best->has_coeffs || rec_out != pred_in) {
-    // If there is no residual and reconstruction is already in rec_out, 
+    // If there is no residual and reconstruction is already in rec_out,
     // we can skip this.
     kvz_pixels_blit(best->rec, rec_out, width, width, 4, out_stride);
   }
+  // TODO: maybe here?
   copy_coeffs(best->coeff, coeff_out, width);
 
   return best->has_coeffs;
@@ -286,6 +288,8 @@ static void quantize_tr_residual(encoder_state_t * const state,
                                  cu_info_t *cur_pu,
                                  lcu_t* lcu)
 {
+  // bomb();
+  // THIS IS THE THING??? (It gets called. That's something, lol)
   const kvz_config *cfg    = &state->encoder_control->cfg;
   const int32_t shift      = color == COLOR_Y ? 0 : 1;
   const vector2d_t lcu_px  = { SUB_SCU(x) >> shift, SUB_SCU(y) >> shift };
@@ -386,6 +390,7 @@ static void quantize_tr_residual(encoder_state_t * const state,
                                               coeff);
     cur_pu->tr_skip = tr_skip;
   } else {
+
     has_coeffs = kvz_quantize_residual(state,
                                        cur_pu,
                                        tr_width,
@@ -403,6 +408,8 @@ static void quantize_tr_residual(encoder_state_t * const state,
   if (has_coeffs) {
     cbf_set(&cur_pu->cbf, depth, color);
   }
+
+  // TODO modify coeff here
 }
 
 /**

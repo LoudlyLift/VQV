@@ -151,7 +151,7 @@ typedef struct encoder_state_config_frame_t {
 typedef struct encoder_state_config_tile_t {
   //Current sub-frame
   videoframe_t *frame;
-  
+
   int32_t id;
 
   //Tile: offset in LCU for current encoder_state in global coordinates
@@ -164,7 +164,7 @@ typedef struct encoder_state_config_tile_t {
 
   //Position of the first element in tile scan in global coordinates
   int32_t lcu_offset_in_ts;
-  
+
   // This is a buffer for the non-loopfiltered bottom pixels of every LCU-row
   // in the tile. They are packed such that each LCU-row index maps to the
   // y-coordinate.
@@ -191,11 +191,11 @@ typedef struct encoder_state_config_tile_t {
 
 typedef struct encoder_state_config_slice_t {
   int32_t id;
-  
+
   //Global coordinates
   int32_t start_in_ts;
   int32_t end_in_ts;
-  
+
   //Global coordinates
   int32_t start_in_rs;
   int32_t end_in_rs;
@@ -218,7 +218,7 @@ typedef struct lcu_order_element {
   int first_row;
   int last_column;
   int last_row;
-  
+
   struct lcu_order_element *above;
   struct lcu_order_element *below;
   struct lcu_order_element *left;
@@ -233,19 +233,19 @@ typedef struct encoder_state_t {
   //Use for (i = 0; encoder_state->children[i].encoder_control; ++i) {
   struct encoder_state_t *children;
   struct encoder_state_t *parent;
-  
+
   //Pointer to the encoder_state of the previous frame
   struct encoder_state_t *previous_encoder_state;
-  
+
   encoder_state_config_frame_t  *frame;
   encoder_state_config_tile_t   *tile;
   encoder_state_config_slice_t  *slice;
   encoder_state_config_wfrow_t  *wfrow;
-  
+
   int is_leaf; //A leaf encoder state is one which should encode LCUs...
   lcu_order_element_t *lcu_order;
   uint32_t lcu_order_count;
-  
+
   bitstream_t stream;
   cabac_data_t cabac;
 
@@ -362,7 +362,7 @@ static const uint8_t g_min_in_group[10] = {
 //Get the data for horizontal buffer position at the top of LCU identified by the position in pixel
 #define OFFSET_HOR_BUF(position_x, position_y, cur_pic, i) ((position_x) + i + ((position_y)/LCU_WIDTH - 1) * (cur_pic)->width)
 #define OFFSET_HOR_BUF_C(position_x, position_y, cur_pic, i) ((position_x/2) + i + ((position_y)/LCU_WIDTH - 1) * (cur_pic)->width / 2)
-  
+
 /** @} */
 
 #endif //ENCODERSTATE_H_

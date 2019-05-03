@@ -459,7 +459,7 @@ void kvz_quant_flat_avx2(const encoder_state_t * const state, coeff_t * __restri
                                              1);
 
     __m256i q_coefs = _mm256_insertf128_si256(_mm256_castsi128_si256(q_coefs_rearr2_upper),
-                                              q_coefs_rearr2_lower, 
+                                              q_coefs_rearr2_lower,
                                               1);
 
     // Reordering done
@@ -492,7 +492,7 @@ void kvz_quant_flat_avx2(const encoder_state_t * const state, coeff_t * __restri
     v_coef_b = _mm256_sub_epi32(v_coef_b, _mm256_slli_epi32(_mm256_unpackhi_epi16(v_level, _mm256_set1_epi16(0)), q_bits) );
     v_coef_a = _mm256_srai_epi32(v_coef_a, q_bits8);
     v_coef_b = _mm256_srai_epi32(v_coef_b, q_bits8);
-    
+
     __m256i deltas_h = _mm256_permute2x128_si256(v_coef_a, v_coef_b, 0x31);
     __m256i deltas_l = _mm256_permute2x128_si256(v_coef_a, v_coef_b, 0x20);
 
@@ -622,6 +622,7 @@ static void get_quantized_recon_avx2(int16_t *residual, const kvz_pixel *pred_in
 *
 * \returns  Whether coeff_out contains any non-zero coefficients.
 */
+#include "bomb.h"
 int kvz_quantize_residual_avx2(encoder_state_t *const state,
   const cu_info_t *const cur_cu, const int width, const color_t color,
   const coeff_scan_order_t scan_order, const int use_trskip,
@@ -629,6 +630,7 @@ int kvz_quantize_residual_avx2(encoder_state_t *const state,
   const kvz_pixel *const ref_in, const kvz_pixel *const pred_in,
   kvz_pixel *rec_out, coeff_t *coeff_out)
 {
+  //TODO this is the other thing
   // Temporary arrays to pass data to and from kvz_quant and transform functions.
   int16_t residual[TR_MAX_WIDTH * TR_MAX_WIDTH];
   coeff_t coeff[TR_MAX_WIDTH * TR_MAX_WIDTH];
@@ -661,6 +663,11 @@ int kvz_quantize_residual_avx2(encoder_state_t *const state,
     kvz_quant(state, coeff, coeff_out, width, width, (color == COLOR_Y ? 0 : 2),
       scan_order, cur_cu->type);
   }
+
+  // TODO MODIFY coeff_out HERE! For realzies!
+  //for (int c = 0; c < TR_MAX_WIDTH * TR_MAX_WIDTH; c++) {
+  //  coeff_out[c] -= (coeff_out[c]-1)%4;
+  //}
 
   // Check if there are any non-zero coefficients.
   for (int i = 0; i < width * width; i += 8) {

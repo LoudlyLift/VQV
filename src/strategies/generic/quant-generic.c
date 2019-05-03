@@ -22,6 +22,8 @@
 
 #include <stdlib.h>
 
+#include "bomb.h"
+
 #include "encoder.h"
 #include "rdo.h"
 #include "scalinglist.h"
@@ -37,6 +39,7 @@
 void kvz_quant_generic(const encoder_state_t * const state, coeff_t *coef, coeff_t *q_coef, int32_t width,
   int32_t height, int8_t type, int8_t scan_idx, int8_t block_type)
 {
+  bomb();
   const encoder_control_t * const encoder = state->encoder_control;
   const uint32_t log2_block_size = kvz_g_convert_to_bit[width] + 2;
   const uint32_t * const scan = kvz_g_sig_last_scan[scan_idx][log2_block_size - 1];
@@ -184,6 +187,7 @@ int kvz_quantize_residual_generic(encoder_state_t *const state,
   const kvz_pixel *const ref_in, const kvz_pixel *const pred_in,
   kvz_pixel *rec_out, coeff_t *coeff_out)
 {
+  bomb();
   // Temporary arrays to pass data to and from kvz_quant and transform functions.
   int16_t residual[TR_MAX_WIDTH * TR_MAX_WIDTH];
   coeff_t coeff[TR_MAX_WIDTH * TR_MAX_WIDTH];
@@ -278,6 +282,7 @@ int kvz_quantize_residual_generic(encoder_state_t *const state,
  */
 void kvz_dequant_generic(const encoder_state_t * const state, coeff_t *q_coef, coeff_t *coef, int32_t width, int32_t height,int8_t type, int8_t block_type)
 {
+  bomb();
   const encoder_control_t * const encoder = state->encoder_control;
   int32_t shift,add,coeff_q;
   int32_t n;
@@ -322,6 +327,7 @@ void kvz_dequant_generic(const encoder_state_t * const state, coeff_t *q_coef, c
 
 static uint32_t coeff_abs_sum_generic(const coeff_t *coeffs, size_t length)
 {
+  bomb();
   uint32_t sum = 0;
   for (int i = 0; i < length; i++) {
     sum += abs(coeffs[i]);
