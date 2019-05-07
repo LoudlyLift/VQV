@@ -1,0 +1,81 @@
+\documentclass[11pt,oneside,letterpaper]{article}
+\usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
+
+\usepackage[pdftex]{graphicx}
+\graphicspath{{./Figures/}}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+
+
+\usepackage{amsmath,amsthm,amssymb} %math proofs
+\usepackage{spalign,systeme,amsmath}
+\usepackage{verbatim}
+\usepackage{verbatimbox}
+\usepackage{indentfirst}
+\usepackage[final]{pdfpages}
+\usepackage[toc,page]{appendix}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{float}
+
+
+\begin{document}
+
+\title{UH 400: Independent Study}
+
+\author{Ivan Johnson}
+\date{2019 May 3}
+
+\maketitle
+
+For my independent study project, I decided to create a video encoder that is
+capable of encoding different regions of a single video at different quality
+levels. This was quite the ambitious goal, as existing tools are not designed
+for this, and I had no experience with video file formats prior to this project.
+
+I started by finding online resources to teach myself how video encoders worked,
+and found them to be much more complicated than I had initially believed. There
+are, however, a number of great resources on the internet that provide easy to
+understand explanations of how videos work.
+
+Eventually, I became confident enough in my understanding that I moved on to
+trying to start implementing my ideas. It would be completely unrealistic for me
+to try to create everything from scratch. As such, I searched for and found a
+half dozen or so different encoders online that allow people like me to view and
+modify their source code. Eventually, I settled on using one called ``Kvazaar''
+that seemed like it would be easy for me to use, as they appeared to have the
+best documentation about how it worked.
+
+When I started to use Kvazaar in earnest, however, I found it to be a
+complicated beast. The functionality that I needed to modify for my variable
+quality video encoder was not coalesced in a single file as I had expected, but
+appeared to be duplicated several times across the entire project, each with its
+own slight tweaks for the needs in that particular part of the project. This led
+to progress towards a working result being very slow.
+
+When the end of the winter 2018 semester came about, I was very unhappy with my
+results so Dr.\ Chakareski and I elected to continue the project in the spring
+of 2019. Ultimately, we realized that I shouldn't have been so focused on trying
+to do things in the best possible way, and instead I should take a much simpler,
+albeit somewhat less efficient, approach. In keeping with Hofstadter's law, this
+new approach took much longer to finish than initially expected. However, I
+finally managed to get it working at the end of the semester.
+
+The complete set of files I've been working with is very large. Rather than
+sending it via email, I have uploaded it to my crimson drive at this URL:
+\url{https://drive.google.com/open?id=1YnHmRxBWaxg9Jqb6qEjJ8_2d9EYxY-72}.
+
+I tested my project by encoding 147 videos at different quality levels. The
+total size of the original videos was 266M, and the resulting output was
+215M. This is an impressive file size reduction of 19\%, which comes at the cost
+of only a mild reduction in video quality on the edges of the video.
+
+These results could potentially be very useful for ultra-widescreen video where
+the edges of the video are less important, such videos of the first person
+perspective where the center of the video always contains the most important
+information.
+
+As it so happens, I started tracking what I do with my time last year, so I can
+report with great precision and accuracy that I spent just over XXX hours on
+this course.
+
+\end{document}
