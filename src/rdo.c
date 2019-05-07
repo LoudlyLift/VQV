@@ -30,6 +30,7 @@
 #include "imagelist.h"
 #include "inter.h"
 #include "scalinglist.h"
+#include "strategyselector.h"
 #include "tables.h"
 #include "transform.h"
 
@@ -975,7 +976,7 @@ uint32_t kvz_calc_mvd_cost_cabac(const encoder_state_t * state,
   cabac->cur_ctx = &(cabac->ctx.cu_merge_flag_ext_model);
 
   CABAC_BIN(cabac, merged, "MergeFlag");
-  num_cand = MRG_MAX_NUM_CANDS;
+  num_cand = state->encoder_control->cfg.max_merge;
   if (merged) {
     if (num_cand > 1) {
       int32_t ui;
