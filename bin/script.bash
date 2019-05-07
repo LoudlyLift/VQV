@@ -18,10 +18,10 @@ third=$(($width / 3))
 left=$third
 right=$((2*$third))
 
-ffmpeg -i "$IF" -b:v 0.25M -filter:v "crop=$left:$height:0:0" "$FL"
-ffmpeg -i "$IF" -b:v 0.50M -filter:v "crop=$((right-left)):$height:$left:0" "$FC"
-ffmpeg -i "$IF" -b:v 0.25M -filter:v "crop=$((width-right)):$height:$right:0" "$FR"
+ffmpeg -i "$IF" -b:v 0.2M -filter:v "crop=$left:$height:0:0" "$FL"
+ffmpeg -i "$IF" -b:v 0.4M -filter:v "crop=$((right-left)):$height:$left:0" "$FC"
+ffmpeg -i "$IF" -b:v 0.2M -filter:v "crop=$((width-right)):$height:$right:0" "$FR"
 
-ffmpeg -i "$FL" -i "$FC" -i "$FR" -b:v 1.0M -filter_complex hstack=inputs=3 "$OF"
+ffmpeg -i "$FL" -i "$FC" -i "$FR" -b:v 0.8M -filter_complex hstack=inputs=3 "$OF"
 
 rm -r "$WDIR"
